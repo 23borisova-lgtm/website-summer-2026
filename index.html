@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Энциклопедия Невозможного | Премьера 2026</title>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS & Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: '#0f111a',
+                        primary: '#3b82f6',
+                        amber: { 400: '#fbbf24', 500: '#f59e0b', glow: 'rgba(251, 191, 36, 0.5)' },
+                        emerald: { 400: '#34d399', 500: '#10b981' },
+                        purple: { 400: '#c084fc', 500: '#a855f7' },
+                        orange: { 400: '#fb923c', 500: '#f97316' },
+                        red: { 500: '#ef4444', 600: '#dc2626' }
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        cinematic: ['Oswald', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'space-nebula': 'radial-gradient(circle at center, rgba(56, 189, 248, 0.10) 0%, rgba(15, 17, 26, 1) 80%)',
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(251, 191, 36, 0.2)',
+                        'card': '0 10px 30px -10px rgba(0,0,0,0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0f111a; color: #e2e8f0; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f111a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Hero Background */
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Radar Section Background */
+        .radar-section-bg {
+            background-image: url('unnamed.jpg'); 
+            background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2094&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .modal-overlay {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cookie-banner {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* Tech Shape for Mission Cards */
+        .tech-shape {
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
+            transition: all 0.4s ease;
+        }
+
+        .tech-border-container {
+            position: relative;
+            padding: 2px;
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .tech-border-container:hover {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.3));
+        }
+
+        .logo-filter {
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- ICONS ---
+        const Icons = {
+            Play: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+            ChevronRight: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>,
+            Check: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>,
+            X: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>,
+            Menu: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
+            Shield: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+            User: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+            PhoneOff: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="22" x2="2" y1="2" y2="22"/></svg>,
+            Pizza: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 11h.01"/><path d="M11 15h.01"/><path d="M16 16h.01"/><path d="M2 16h20"/><path d="M6 16v4c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-4"/><path d="M2 16.13a7.6 7.6 0 0 1 2.5-4.5c2.3-1.8 4.5-2.6 6.5-5.9a2.1 2.1 0 0 1 3.5 1.5c1.4 5 4.3 6.9 7.5 8.9"/></svg>,
+            Camera: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>,
+            Star: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+            Clock: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+            MapPin: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+            Phone: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+            Send: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>,
+            Instagram: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>,
+            Vk: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M13.6 21.6C7.9 21.6 4.3 17.6 2.7 10H5.6C6.1 14.1 7.9 15.9 9.3 16.3V10H12V13.6C13.7 13.4 15.4 11.5 16 10H18.8C18.3 12.3 16.6 14 15.4 14.7C16.6 15.3 18.5 16.8 19.3 21.6H16.2C15.6 18.9 13.4 16.8 12.3 16.2V21.6H13.6Z"/></svg>,
+            Award: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>,
+            Briefcase: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
+            Video: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>,
+            Mic: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="23"/><line x1="8" x2="16" y1="23" y2="23"/></svg>,
+            Trophy: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17"/><path d="M14 14.66V17"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/><path d="M8.5 22l1-4.66"/><path d="M15.5 22l-1-4.66"/></svg>,
+            Music: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>,
+            Globe: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>,
+        };
+
+        const PrivacyModal = ({ isOpen, onClose }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md modal-overlay" onClick={onClose}>
+                    <div className="bg-slate-900 border border-white/10 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative text-slate-300 p-8" onClick={e => e.stopPropagation()}>
+                        <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:text-amber-400 transition-colors z-10">
+                            <Icons.X className="w-6 h-6"/>
+                        </button>
+                        <h2 className="text-2xl font-bold text-white mb-6 font-cinematic uppercase">Политика конфиденциальности</h2>
+                        <div className="space-y-4 text-sm">
+                             <p>Настоящая политика обработки персональных данных составлена в соответствии с требованиями Федерального закона от 27.07.2006. №152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые Центром развития «Три Кита» (далее — Оператор).</p>
+                             <p>1. Оператор ставит своей важнейшей целью и условием осуществления своей деятельности соблюдение прав и свобод человека и гражданина при обработке его персональных данных, в том числе защиты прав на неприкосновенность частной жизни, личную и семейную тайну.</p>
+                             <p>2. Оператор может обрабатывать следующие персональные данные Пользователя: Фамилия, имя, отчество; Электронный адрес; Номера телефонов; Данные о детях (имя, возраст), необходимые для предоставления услуг.</p>
+                             <p>3. Цель обработки персональных данных Пользователя — информирование посредством отправки электронных писем; предоставление доступа к сервисам, информации и/или материалам, содержащимся на веб-сайте; запись на образовательные программы.</p>
+                             <p>4. Оператор обеспечивает сохранность персональных данных и принимает все возможные меры, исключающие доступ к персональным данным неуполномоченных лиц.</p>
+                             <p>5. Пользователь может получить любые разъяснения по интересующим вопросам, касающимся обработки его персональных данных, обратившись к Оператору.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const CookieConsent = ({ onOpenPrivacy }) => {
+            const [isVisible, setIsVisible] = useState(true);
+
+            const acceptCookies = () => {
+                setIsVisible(false);
+            };
+
+            if (!isVisible) return null;
+
+            return (
+                <div className="fixed bottom-0 left-0 right-0 z-[100] p-4 bg-slate-900/95 backdrop-blur-md border-t border-white/10 cookie-banner">
+                    <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                        <p className="text-slate-300 text-xs md:text-sm text-center md:text-left">
+                            Мы используем файлы cookie для улучшения работы сайта. Продолжая использовать сайт, вы соглашаетесь с нашей <button onClick={onOpenPrivacy} className="text-amber-400 hover:underline bg-transparent border-0 p-0 inline">Политикой конфиденциальности</button>.
+                        </p>
+                        <button onClick={acceptCookies} className="px-6 py-2 bg-amber-400 text-black font-bold uppercase text-xs tracking-widest rounded-sm hover:bg-white transition-colors shrink-0">
+                            Согласиться
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const VideoModal = ({ isOpen, onClose }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md modal-overlay" onClick={onClose}>
+                    <div className="relative w-full max-w-4xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+                        <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:text-amber-400 transition-colors z-10">
+                            <Icons.X className="w-6 h-6"/>
+                        </button>
+                        <div className="w-full h-full flex items-center justify-center text-slate-500">
+                             <iframe 
+                                src="https://drive.google.com/file/d/1F1GQY4Lnsf6Dz_7mhmPOVIoIwmjfH6ch/preview" 
+                                width="100%" 
+                                height="100%" 
+                                frameBorder="0" 
+                                allow="autoplay"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Modal = ({ isOpen, onClose, mission }) => {
+            if (!isOpen || !mission) return null;
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md modal-overlay" onClick={onClose}>
+                    <div className="bg-slate-900 border border-white/10 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" onClick={e => e.stopPropagation()}>
+                        <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:text-amber-400 transition-colors z-10">
+                            <Icons.X className="w-6 h-6"/>
+                        </button>
+                        
+                        <div className="h-48 bg-cover bg-center relative" style={{backgroundImage: `url(${mission.image})`}}>
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
+                            <div className="absolute bottom-6 left-6">
+                                <span className={`inline-block px-3 py-1 rounded text-xs font-bold uppercase tracking-widest mb-2 text-black ${mission.bg}`}>{mission.dates}</span>
+                                <h3 className="text-3xl font-bold text-white font-cinematic uppercase">{mission.title}</h3>
+                            </div>
+                        </div>
+                        
+                        <div className="p-8 space-y-8">
+                            <div>
+                                <h4 className="text-amber-400 font-bold uppercase tracking-widest text-sm mb-3">🗺️ Легенда</h4>
+                                <p className="text-slate-300 leading-relaxed">{mission.legendFull}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-3">🛠️ Чему научимся</h4>
+                                <ul className="space-y-2 text-slate-300">
+                                    {mission.learnList.map((item, i) => (
+                                        <li key={i} className="flex gap-2">
+                                            <span className="text-emerald-500">•</span> {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 className="text-purple-400 font-bold uppercase tracking-widest text-sm mb-3">🚀 Выходы и Экскурсии</h4>
+                                <ul className="space-y-2 text-slate-300">
+                                    {mission.excursions.map((item, i) => (
+                                        <li key={i} className="flex gap-2">
+                                            <span className="text-purple-500 font-bold">{i+1}.</span> {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <button onClick={onClose} className="w-full py-4 bg-white/5 border border-white/20 text-white font-bold uppercase tracking-widest hover:bg-amber-400 hover:text-black transition-all rounded-sm">
+                                Закрыть протокол
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Nav = ({ onOpenPrivacy }) => {
+            const [isScrolled, setIsScrolled] = useState(false);
+            const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setIsScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-deep/95 backdrop-blur-md py-4 border-b border-white/5 shadow-lg' : 'py-6 bg-transparent'}`}>
+                    <div className="container mx-auto px-6 flex justify-between items-center relative z-50">
+                        <div className="flex items-center gap-4 flex-1 justify-start">
+                            {/* Logo centered */}
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-gradient-to-tr from-amber-400 to-amber-600 rounded flex items-center justify-center font-bold text-black font-cinematic text-2xl shadow-[0_0_15px_rgba(251,191,36,0.3)] shrink-0 mt-4">Э</div>
+                                <div className="flex flex-col justify-center h-12">
+                                    <div className="text-[10px] tracking-[0.3em] uppercase text-amber-400 font-bold leading-tight mb-0.5">Летний Проект</div>
+                                    <div className="text-lg md:text-xl font-bold tracking-tight uppercase font-cinematic leading-none text-white">
+                                        Энциклопедия<br/>Невозможного
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="hidden lg:flex items-center gap-10"> 
+                            {['Сюжет', 'Методика', 'Безопасность', 'Галерея', 'Вопросы'].map((item) => (
+                                <a key={item} href={`#${item.toLowerCase()}`} className="text-xs font-bold uppercase tracking-[0.15em] text-slate-400 hover:text-white transition-colors relative group">
+                                    {item}
+                                    <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
+                                </a>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center gap-6 flex-1 justify-end">
+                            <button onClick={() => document.getElementById('contacts').scrollIntoView({behavior: 'smooth'})} className="hidden lg:flex items-center gap-3 px-8 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-amber-400 transition-all duration-300 group rounded-sm shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                                <span>Вступить</span>
+                                <Icons.ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </button>
+                            <button className="lg:hidden text-white" onClick={() => setIsMobileOpen(!isMobileOpen)}>
+                                {isMobileOpen ? <Icons.X /> : <Icons.Menu />}
+                            </button>
+                        </div>
+                    </div>
+
+                    {isMobileOpen && (
+                        <div className="fixed inset-0 bg-deep/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 animate-fade-in">
+                            {['Сюжет', 'Методика', 'Безопасность', 'Галерея', 'Вопросы'].map((item) => (
+                                <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setIsMobileOpen(false)} className="text-2xl font-bold uppercase tracking-widest text-white font-cinematic">
+                                    {item}
+                                </a>
+                            ))}
+                            <button onClick={() => {document.getElementById('contacts').scrollIntoView({behavior: 'smooth'}); setIsMobileOpen(false)}} className="px-8 py-4 bg-amber-400 text-black font-bold uppercase tracking-widest rounded-sm mt-4">
+                                Забронировать место
+                            </button>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const Hero = () => {
+            const [videoOpen, setVideoOpen] = useState(false);
+
+            return (
+                <header className="relative min-h-screen flex items-center justify-center overflow-hidden">
+                    <VideoModal isOpen={videoOpen} onClose={() => setVideoOpen(false)} />
+                    <div className="absolute inset-0 bg-deep z-0">
+                        {/* Placeholder for the poster image */}
+                        <div className="absolute inset-0 hero-bg bg-cover bg-center opacity-40 mix-blend-lighten"></div>
+                         <div className="absolute inset-0 bg-space-nebula opacity-90"></div>
+                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
+                    </div>
+
+                    <div className="relative z-10 container mx-auto px-6 text-center mt-20">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-500/30 bg-amber-500/10 backdrop-blur-md mb-8 animate-fade-in-up">
+                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shadow-[0_0_10px_#f59e0b]"></span>
+                            <span className="text-xs font-bold tracking-[0.2em] uppercase text-amber-200">Премьера сезона 2026</span>
+                        </div>
+
+                        <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold leading-[0.9] tracking-tighter mb-8 font-cinematic animate-fade-in-up uppercase" style={{animationDelay: '0.1s'}}>
+                            <span className="block text-white drop-shadow-2xl">Энциклопедия</span>
+                            <span className="block text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-amber-500 to-amber-700 pb-4">Невозможного</span>
+                        </h1>
+
+                        <p className="text-slate-200 text-lg md:text-2xl max-w-3xl mx-auto mb-10 animate-fade-in-up font-medium leading-relaxed" style={{animationDelay: '0.2s'}}>
+                           Каникулы, которые меняют мышление. <br/>Мы учим детей не сдаваться, думать, доказывать и создавать будущее.
+                        </p>
+
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-6 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                            <button onClick={() => document.getElementById('сюжет').scrollIntoView({behavior: 'smooth'})} className="group relative px-10 py-5 bg-amber-400 text-black font-bold uppercase tracking-widest text-sm overflow-hidden hover:scale-105 transition-transform duration-300 rounded-sm shadow-neon">
+                                <span className="relative z-10 flex items-center gap-3">
+                                    Выбрать Сюжет <Icons.Play className="w-4 h-4 fill-black" />
+                                </span>
+                                <div className="absolute inset-0 bg-white/40 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                            </button>
+                            
+                            <button onClick={() => setVideoOpen(true)} className="flex items-center gap-3 px-8 py-5 border border-white/20 text-white font-bold uppercase tracking-widest text-sm hover:bg-white/10 transition-all rounded-sm backdrop-blur-md">
+                                <Icons.Camera className="w-5 h-5 text-amber-400" />
+                                <span>Смотреть видео</span>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        const RealityCheck = () => {
+            return (
+                <section className="py-24 bg-deep border-b border-white/5 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-deep via-transparent to-deep z-10"></div>
+                    <div className="container mx-auto px-6 relative z-20">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white font-cinematic uppercase mb-4">Какой сценарий выберете вы?</h2>
+                            <p className="text-slate-400">У ребенка есть 90 дней лета. Как они пройдут?</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                            {/* Bad Scenario */}
+                            <div className="group relative p-8 rounded-2xl border border-white/5 bg-white/[0.02] transition-all duration-500 hover:border-red-500/30">
+                                <div className="absolute top-0 right-0 p-4 opacity-50 grayscale group-hover:grayscale-0 transition-all">
+                                    <Icons.PhoneOff className="w-16 h-16 text-red-500/20 group-hover:text-red-500 transition-colors" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-6 font-cinematic uppercase flex items-center gap-3">
+                                    <span className="w-2 h-8 bg-red-600 rounded-full"></span>
+                                    День Сурка
+                                </h3>
+                                <ul className="space-y-4">
+                                    <li className="flex gap-4 text-slate-400">
+                                        <Icons.X className="w-5 h-5 text-red-500 shrink-0"/>
+                                        <span><strong>Гаджет-Зомби.</strong> Телефон — единственный друг. ТикТок вместо общения</span>
+                                    </li>
+                                    <li className="flex gap-4 text-slate-400">
+                                        <Icons.X className="w-5 h-5 text-red-500 shrink-0"/>
+                                        <span><strong>Тревога за ребенка.</strong> Вы на работе и не знаете: с кем ребенок, поел ли он и где гуляет</span>
+                                    </li>
+                                    <li className="flex gap-4 text-slate-400">
+                                        <Icons.X className="w-5 h-5 text-red-500 shrink-0"/>
+                                        <span><strong>Откат в развитии.</strong> За лето мозг «расслабился». В сентябре будет стресс</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* Good Scenario */}
+                            <div className="group relative p-8 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-transparent transition-all duration-500 hover:-translate-y-2 shadow-card">
+                                <div className="absolute top-0 right-0 p-4">
+                                    <Icons.Star className="w-16 h-16 text-amber-500/20 group-hover:text-amber-500 transition-colors" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-6 font-cinematic uppercase flex items-center gap-3">
+                                    <span className="w-2 h-8 bg-amber-500 rounded-full"></span>
+                                    Энциклопедия
+                                </h3>
+                                <ul className="space-y-4">
+                                    <li className="flex gap-4 text-white">
+                                        <Icons.Check className="w-5 h-5 text-amber-500 shrink-0"/>
+                                        <span><strong>Цифровой Детокс.</strong> Телефоны в сейфе. Выдаем только для «спецзаданий» и связи</span>
+                                    </li>
+                                    <li className="flex gap-4 text-white">
+                                        <Icons.Check className="w-5 h-5 text-amber-500 shrink-0"/>
+                                        <span><strong>Связь и отчеты.</strong> Фото и видео отчеты в канал 2 раза в день. Вы спокойны</span>
+                                    </li>
+                                    <li className="flex gap-4 text-white">
+                                        <Icons.Check className="w-5 h-5 text-amber-500 shrink-0"/>
+                                        <span><strong>Апгрейд Мозга.</strong> Микроскопы, опыты, инженерия. Интереснее, чем Ютуб</span>
+                                    </li>
+                                </ul>
+                                <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
+                                    <span className="text-xs font-bold uppercase tracking-widest text-amber-400">Гарантия результата</span>
+                                    <Icons.ChevronRight className="w-5 h-5 text-amber-400"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Methodology = () => {
+            return (
+                <section id="методика" className="py-24 bg-deep relative">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 font-cinematic uppercase">Почему это работает?</h2>
+                            <p className="text-slate-400 max-w-2xl mx-auto">Мы объединили обучение и механику блокбастера. Дети думают, что играют, но на самом деле — учатся.</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div className="glass-panel p-8 rounded-2xl hover:border-amber-500/50 transition-colors group">
+                                <h4 className="text-amber-400 text-sm font-bold uppercase tracking-widest mb-2">Вместо заданий</h4>
+                                <h3 className="text-xl font-bold text-white mb-3 uppercase">Большая Игра</h3>
+                                <p className="text-slate-400 text-sm leading-relaxed">
+                                    Не скучные уроки, а глобальная миссия. Ребенок чувствует себя героем фильма, от решений которого зависит финал
+                                </p>
+                            </div>
+                            <div className="glass-panel p-8 rounded-2xl hover:border-emerald-500/50 transition-colors group">
+                                <h4 className="text-emerald-400 text-sm font-bold uppercase tracking-widest mb-2">Вместо инструкций</h4>
+                                <h3 className="text-xl font-bold text-white mb-3 uppercase">Лаборатория</h3>
+                                <p className="text-slate-400 text-sm leading-relaxed">
+                                    У нас нет ответов в конце учебника. Есть гипотезы и тесты. Мы учим мыслить, а не зубрить
+                                </p>
+                            </div>
+                            <div className="glass-panel p-8 rounded-2xl hover:border-purple-500/50 transition-colors group">
+                                <h4 className="text-purple-400 text-sm font-bold uppercase tracking-widest mb-2">Вместо оценок</h4>
+                                <h3 className="text-xl font-bold text-white mb-3 uppercase">Точка Роста</h3>
+                                <p className="text-slate-400 text-sm leading-relaxed">
+                                    Ошибся? Отлично! Теперь у тебя есть данные, чтобы сделать лучше. Анализируем, исправляем и побеждаем
+                                </p>
+                            </div>
+                            <div className="glass-panel p-8 rounded-2xl hover:border-primary transition-colors group">
+                                <h4 className="text-primary text-sm font-bold uppercase tracking-widest mb-2">Вместо виртуальности</h4>
+                                <h3 className="text-xl font-bold text-white mb-3 uppercase">Супер-Команда</h3>
+                                <p className="text-slate-400 text-sm leading-relaxed">
+                                    Каждый находит свою роль. Инженер, стратег, переговорщик. Мы учим, что вместе можно сделать то, что невозможно одному
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Events = () => {
+            return (
+                <section className="py-24 bg-deep relative border-t border-white/5">
+                    <div className="container mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 font-cinematic uppercase">Афиша Событий</h2>
+                            <p className="text-slate-400 max-w-2xl mx-auto">
+                                Каждый день — это новое шоу
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                             {/* Card 1: Business */}
+                            <div className="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors">
+                                <div className="w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center mb-4 text-amber-400">
+                                    <Icons.Briefcase className="w-6 h-6"/>
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Бизнес-Ясли</h3>
+                                <p className="text-slate-400 text-sm">Встречи с предпринимателями и выдающимися людьми города. Формат наставничества и реальной профориентации</p>
+                            </div>
+
+                            {/* Card 2: Cinema */}
+                            <div className="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors">
+                                <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mb-4 text-purple-400">
+                                    <Icons.Video className="w-6 h-6"/>
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Съемка Блокбастера</h3>
+                                <p className="text-slate-400 text-sm">Написание сценария, съемка, монтаж. Участие в реалити-шоу в режиме реального времени</p>
+                            </div>
+
+                            {/* Card 3: Speak */}
+                            <div className="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors">
+                                <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center mb-4 text-emerald-400">
+                                    <Icons.Mic className="w-6 h-6"/>
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Конференции и Ток-шоу</h3>
+                                <p className="text-slate-400 text-sm">Дебаты, защита проектов, публичные выступления. Учимся аргументировать и убеждать</p>
+                            </div>
+
+                            {/* Card 4: Active */}
+                            <div className="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors">
+                                <div className="w-12 h-12 bg-orange-500/20 rounded-full flex items-center justify-center mb-4 text-orange-400">
+                                    <Icons.Trophy className="w-6 h-6"/>
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Драйв и Спорт</h3>
+                                <p className="text-slate-400 text-sm">Дворовые игры, спортивные соревнования, квесты. Энергия, которую нужно выплеснуть мирно</p>
+                            </div>
+
+                            {/* Card 5: Music/Art */}
+                            <div className="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors">
+                                <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mb-4 text-red-400">
+                                    <Icons.Music className="w-6 h-6"/>
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Музыкальные вечера</h3>
+                                <p className="text-slate-400 text-sm">Концерты, творческие вечера, песни под гитару. Атмосфера доверия и тепла</p>
+                            </div>
+
+                            {/* Card 6: World Challenges */}
+                            <div className="glass-panel p-6 rounded-xl hover:bg-white/5 transition-colors border border-white/10">
+                                <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-4 text-blue-400">
+                                    <Icons.Globe className="w-6 h-6"/>
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Вызовы Мира</h3>
+                                <p className="text-slate-400 text-sm">Мы будем разбирать реальные вызовы мира и разбираться в невозможных и закономерных вещах</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const MissionRadar = () => {
+            const [selectedMission, setSelectedMission] = useState(null);
+
+            const missions = [
+                {
+                    id: 1,
+                    title: "Затерянный Остров",
+                    theme: "Adventure",
+                    dates: "6.07 - 17.07",
+                    color: "text-amber-400",
+                    bg: "bg-amber-500",
+                    borderColor: "border-amber-400",
+                    image: "https://lh3.googleusercontent.com/d/1xjqlGflDYwbHHEgXQwU52izb1JvdlqWp", 
+                    modalImage: "https://lh3.googleusercontent.com/d/1xjqlGflDYwbHHEgXQwU52izb1JvdlqWp", 
+                    legend: "Протокол «Робинзон». Навигация потеряна. Остров не отмечен на картах. Выживи и разгадай тайну",
+                    legendFull: "Бортовой журнал, запись 1. Наш борт исчез с радаров в зоне аномалии. Мы одни. Связи нет. Задача: развернуть базу из обломков, расшифровать древние знаки на скалах и построить маяк до начала сезона штормов. Это не прогулка, это тест на характер",
+                    learnList: [
+                        "Читать топографические знаки и компас",
+                        "Строить укрытия (шалаши) и вязать 10 видов узлов",
+                        "Очищать воду подручными средствами",
+                        "Оказывать первую помощь (наложение шин, помощь при ожогах)"
+                    ],
+                    excursions: [
+                        "Большой поход в лесопарк: практика ориентирования",
+                        "Веревочный парк: тренировка ловкости",
+                        "Мастер-класс от школы выживания: костер без спичек"
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Секреты Природы",
+                    theme: "Science",
+                    dates: "20.07 - 31.07",
+                    color: "text-emerald-400",
+                    bg: "bg-emerald-500",
+                    borderColor: "border-emerald-400",
+                    image: "https://lh3.googleusercontent.com/d/1w7I-As6OsT1I9VHg6u7EnA4xjt54R9Ce", 
+                    modalImage: "https://lh3.googleusercontent.com/d/1w7I-As6OsT1I9VHg6u7EnA4xjt54R9Ce", 
+                    legend: "Проект «Аватар». Мы взламываем ДНК джунглей, чтобы украсть технологии у природы и совершить прорыв",
+                    legendFull: "Человеческие технологии устарели. Мы отправляемся в био-экспедицию. Наша цель — подсмотреть инженерные решения у муравьев, создать материалы прочнее стали по чертежам пауков и спроектировать города, которые дышат. Стань био-хакером нового времени",
+                    learnList: [
+                        "Работать с микроскопами (свой мир в капле воды)",
+                        "Принципам биомимикрии: создаем макеты зданий",
+                        "Основам ботаники и зоопсихологии",
+                        "Создадим флорариум своими руками"
+                    ],
+                    excursions: [
+                        "Исследовательская экспедиция в Зоопарк",
+                        "Ботанический сад: поиск редких растений",
+                        "Выездная лекция 'Океанариум' или 'Музей воды'"
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Повелители Стихий",
+                    dates: "3.08 - 14.08",
+                    color: "text-orange-400",
+                    bg: "bg-orange-500",
+                    borderColor: "border-orange-400",
+                    image: "https://lh3.googleusercontent.com/d/18ONDBZv1PcRhGWb95cccycGOov7slUZR", 
+                    modalImage: "https://lh3.googleusercontent.com/d/18ONDBZv1PcRhGWb95cccycGOov7slUZR", 
+                    legend: "Операция Blackout. Энергия исчезла. Твоя миссия — запустить сердце цивилизации заново, используя физику",
+                    legendFull: "Вчера погас свет во всем мире. Гаджеты — просто куски пластика. Мы — последний отряд инженеров. Нам нужно укротить ветер, заставить воду работать и добыть огонь из науки. Мы строим новый мир, где стихия — не враг, а топливо",
+                    learnList: [
+                        "Создавать электричество из лимонов и картошки",
+                        "Строить ветрогенераторы и запускать водяные ракеты",
+                        "Понимать аэродинамику",
+                        "Конструировать мосты из спагетти"
+                    ],
+                    excursions: [
+                        "Музей занимательных наук 'Реактор'",
+                        "Экскурсия в настоящую пожарную часть",
+                        "Метеостанция (или тематический квест)"
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "Город Будущего",
+                    theme: "Future",
+                    dates: "17.08 - 28.08",
+                    color: "text-purple-400",
+                    bg: "bg-purple-500",
+                    borderColor: "border-purple-400",
+                    image: "https://lh3.googleusercontent.com/d/1rGEF7LjX_pnBjzBaZLnvjXGomWAn-gZ7", 
+                    modalImage: "https://lh3.googleusercontent.com/d/1rGEF7LjX_pnBjzBaZLnvjXGomWAn-gZ7", 
+                    legend: "Код 2088. Старые города рухнули. Ты — архитектор новой эры. ИИ, кибернетика и власть в твоих руках",
+                    legendFull: "Добро пожаловать в Сектор Зеро. Здесь нет пробок и серых стен, потому что здесь пока ничего нет. Вы — Совет Основателей. Каким будет этот мегаполис? Стеклянным раем или кибер-джунглями? Вы пишете законы и решаете: роботы — слуги или граждане?",
+                    learnList: [
+                        "Маккетированию: строим район из картона и светодиодов",
+                        "Финансовой грамотности: бюджет города, налоги",
+                        "Публичным выступлениям: защита проекта",
+                        "Основам дизайн-мышления"
+                    ],
+                    excursions: [
+                        "Визит в офис современной IT-компании",
+                        "Экскурсия в современный жилой комплекс",
+                        "Умная библиотека: квест по цифровым технологиям"
+                    ]
+                }
+            ];
+
+            return (
+                <section id="сюжет" className="radar-section-bg py-24 bg-deep relative overflow-hidden">
+                    {/* Dark overlay to ensure text contrast */}
+                    <div className="absolute inset-0 bg-deep/50"></div>
+                    
+                    <Modal isOpen={!!selectedMission} mission={selectedMission} onClose={() => setSelectedMission(null)} />
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="text-center mb-10">
+                            <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 font-cinematic uppercase">4 Сюжета — 4 Мира</h2>
+                            <p className="text-slate-300 text-lg">Наведите на сектор, чтобы узнать больше</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                            {missions.map((m) => (
+                                <div 
+                                    key={m.id}
+                                    onClick={() => setSelectedMission(m)}
+                                    className="tech-border-container cursor-pointer group"
+                                    style={{
+                                        filter: `drop-shadow(0 0 5px ${m.color.replace('text-', '').replace('-400', '')})`
+                                    }}
+                                >
+                                    <div className={`tech-shape relative h-[320px] bg-slate-900 group overflow-hidden`}>
+                                        {/* Image Background */}
+                                        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-70" style={{backgroundImage: `url(${m.image})`}}></div>
+                                        
+                                        {/* Overlay & Content */}
+                                        <div className="absolute inset-0 p-8 flex flex-col justify-between z-10 bg-gradient-to-t from-deep/90 via-deep/40 to-deep/10">
+                                            <div className="flex justify-between items-start">
+                                                <span className={`text-xs font-bold uppercase tracking-widest px-2 py-1 bg-black/60 backdrop-blur rounded ${m.color}`}>{m.dates}</span>
+                                                <Icons.Play className={`w-8 h-8 ${m.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                                            </div>
+                                            
+                                            <div>
+                                                <h3 className="text-2xl font-black uppercase font-cinematic text-white mb-2 leading-tight drop-shadow-md group-hover:text-amber-400 transition-colors">{m.title}</h3>
+                                                <p className="text-sm text-slate-200 font-medium leading-relaxed line-clamp-3 drop-shadow-sm">
+                                                    {m.legend}
+                                                </p>
+                                                
+                                                <div className="mt-4 flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                                                    <span>Открыть досье</span> <Icons.ChevronRight className="w-4 h-4 text-amber-400"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Dynamic Border Color on Hover */}
+                                        <div className={`absolute inset-0 border-2 border-white/5 group-hover:${m.borderColor} transition-colors duration-300 pointer-events-none`}></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const SkillTree = () => {
+            return (
+                <section className="py-24 bg-deep relative">
+                    <div className="container mx-auto px-6">
+                        <div className="mb-16 text-center">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white font-cinematic uppercase">Что останется после программы?</h2>
+                            <p className="text-slate-400 mt-4">Счастливое детство, которого нам иногда не хватает: дружба, открытия и реальные приключения</p>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div className="glass-panel p-6 rounded-xl border border-white/5">
+                                <div className="text-amber-400 text-4xl mb-4 font-cinematic">HARD</div>
+                                <h3 className="text-white font-bold text-xl mb-3">Знания</h3>
+                                <ul className="text-slate-400 text-sm space-y-2 list-disc pl-4">
+                                    <li>Работа с инструментами</li>
+                                    <li>Основы физики и химии</li>
+                                    <li>3D-моделирование</li>
+                                    <li>Биология на практике</li>
+                                </ul>
+                            </div>
+                             <div className="glass-panel p-6 rounded-xl border border-white/5">
+                                <div className="text-purple-400 text-4xl mb-4 font-cinematic">SOFT</div>
+                                <h3 className="text-white font-bold text-xl mb-3">Коммуникация</h3>
+                                <ul className="text-slate-400 text-sm space-y-2 list-disc pl-4">
+                                    <li>Защита проектов</li>
+                                    <li>Работа в команде</li>
+                                    <li>Ораторское искусство</li>
+                                    <li>Эмоциональный интеллект</li>
+                                </ul>
+                            </div>
+                             <div className="glass-panel p-6 rounded-xl border border-white/5">
+                                <div className="text-emerald-400 text-4xl mb-4 font-cinematic">LIFE</div>
+                                <h3 className="text-white font-bold text-xl mb-3">Самостоятельность</h3>
+                                <ul className="text-slate-400 text-sm space-y-2 list-disc pl-4">
+                                    <li>Тайм-менеджмент</li>
+                                    <li>Финансовая грамотность</li>
+                                    <li>Бытовое самообслуживание</li>
+                                    <li>Решение конфликтов</li>
+                                </ul>
+                            </div>
+                             <div className="glass-panel p-6 rounded-xl border border-amber-500 bg-amber-900/10">
+                                <div className="text-white text-4xl mb-4 font-cinematic">BONUS</div>
+                                <h3 className="text-white font-bold text-xl mb-3">Профайл Героя</h3>
+                                <p className="text-slate-300 text-sm leading-relaxed">
+                                    Индивидуальный отчет от психолога и менторов: таланты ребенка, точки роста и рекомендации для родителей
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Security = () => {
+            return (
+                <section id="безопасность" className="py-24 bg-[#0a0a0c] border-y border-white/5">
+                    <div className="container mx-auto px-6">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h2 className="text-3xl md:text-5xl font-bold text-white font-cinematic uppercase mb-8">Комфорт и Безопасность</h2>
+                                <div className="space-y-8">
+                                    <div className="flex gap-6">
+                                        <div className="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center shrink-0 border border-white/10 text-emerald-400">
+                                            <Icons.Shield className="w-8 h-8"/>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-bold text-xl mb-1">Контролируемая свобода</h4>
+                                            <p className="text-slate-400 text-sm leading-relaxed">
+                                                Видеонаблюдение. Прогулки только на спец. площадках. Постоянная связь с администратором. Вы работаете спокойно
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-6">
+                                        <div className="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center shrink-0 border border-white/10 text-emerald-400">
+                                            <Icons.User className="w-8 h-8"/>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-bold text-xl mb-1">Менторы, а не надзиратели</h4>
+                                            <p className="text-slate-400 text-sm leading-relaxed">
+                                                1 взрослый на 10 детей. Все наставники проходят спец. обучение по игровой педагогике и первой помощи
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-6">
+                                        <div className="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center shrink-0 border border-white/10 text-emerald-400">
+                                            <Icons.Pizza className="w-8 h-8"/>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-white font-bold text-xl mb-1">Вкусная польза</h4>
+                                            <p className="text-slate-400 text-sm leading-relaxed">
+                                                3-разовое питание. Выбираем то, что нравится детям и полезно. Обязательно овощи, фрукты. По пятницам — пицца или любимое блюдо
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Trust Block */}
+                            <div className="bg-gradient-to-br from-slate-900 to-black p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl"></div>
+                                <h3 className="text-white font-bold text-3xl font-cinematic mb-6">Генетический код проекта</h3>
+                                <p className="text-slate-400 text-base mb-10 leading-relaxed">
+                                    «Энциклопедия Невозможного» — это премьера 2026 года. Но мы создаем образовательные миры уже 5 лет. И знаем, как зажечь глаза ребенку 6 лет и увлечь подростка 12 лет.
+                                </p>
+                                <div className="flex gap-12 border-t border-white/10 pt-8">
+                                    <div>
+                                        <div className="text-4xl font-bold text-amber-400 font-cinematic">1300+</div>
+                                        <div className="text-xs text-slate-500 uppercase tracking-widest mt-1">Счастливых детей</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-4xl font-bold text-amber-400 font-cinematic">75</div>
+                                        <div className="text-xs text-slate-500 uppercase tracking-widest mt-1">Программ проведено</div>
+                                    </div>
+                                </div>
+                                <p className="text-xs text-slate-500 mt-6 pt-4 border-t border-white/5">Опыт наших педагогов и методистов позволяет нам гарантировать безопасность и результат.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Gallery = () => {
+            const photos = [
+                "https://lh3.googleusercontent.com/d/1WcFtI4Eqoh5PMFwIRmoJcapZA0DjTJLj", 
+                "https://lh3.googleusercontent.com/d/15-ZkusjP7AnDjKDKf_oPBUXuD5q_mUDv", 
+                "https://lh3.googleusercontent.com/d/19IzVgdv4WjtXFM5WMzO2qNn3EwZ_XwlB", 
+                "https://lh3.googleusercontent.com/d/1qr4Ra5fhDtOH_h4kZ1fBQuGu-Voq6P5F",
+                "https://lh3.googleusercontent.com/d/1Yi-LrP-EWrKjhiUgHjbA_HvEpGIH01Vz", 
+                // Updated Video Cover from Drive
+                "https://lh3.googleusercontent.com/d/1tim8LpPTKJPJ8WNQbRv0EEnTZ3v3xGzl"
+            ];
+            
+            const [videoOpen, setVideoOpen] = useState(false);
+
+            return (
+                <section id="галерея" className="py-24 bg-deep border-t border-white/5">
+                     <div className="container mx-auto px-6">
+                        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+                            <div>
+                                <h2 className="text-3xl md:text-5xl font-bold text-white mb-2 font-cinematic uppercase">Хроники Прошлых Сезонов</h2>
+                                <p className="text-slate-400">Лучше один раз увидеть, чем сто раз услышать</p>
+                            </div>
+                            <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" className="text-amber-400 uppercase tracking-widest text-xs font-bold hover:text-white transition-colors mt-4 md:mt-0 flex items-center gap-2">
+                                Больше фото в Telegram <Icons.ChevronRight className="w-4 h-4"/>
+                            </a>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {photos.slice(0, 5).map((src, idx) => (
+                                <div key={idx} className={`relative rounded-xl overflow-hidden group cursor-pointer h-64 hover:shadow-neon transition-all`}>
+                                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{backgroundImage: `url(${src})`}}></div>
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                                </div>
+                            ))}
+                            {/* Video Item (Last) */}
+                            <div onClick={() => setVideoOpen(true)} className="relative rounded-xl overflow-hidden group cursor-pointer h-64 hover:shadow-neon transition-all bg-black flex items-center justify-center">
+                                <div className="absolute inset-0 bg-cover bg-center opacity-60" style={{backgroundImage: `url(${photos[5]})`}}></div>
+                                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+                                <div className="z-10 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/50 group-hover:scale-110 transition-transform">
+                                    <Icons.Play className="w-8 h-8 text-white ml-1" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Video Modal specific to gallery */}
+                    {videoOpen && (
+                         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md modal-overlay" onClick={() => setVideoOpen(false)}>
+                            <div className="relative w-full max-w-4xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setVideoOpen(false)} className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:text-amber-400 transition-colors z-10">
+                                    <Icons.X className="w-6 h-6"/>
+                                </button>
+                                <div className="w-full h-full">
+                                    <iframe 
+                                        src="https://drive.google.com/file/d/137Xxu2yOJwZ1o6kNMcE0wv0XAh6bECgH/preview" 
+                                        width="100%" 
+                                        height="100%" 
+                                        frameBorder="0" 
+                                        allow="autoplay"
+                                    ></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </section>
+            );
+        }
+
+        const FAQ = () => {
+            const [openIndex, setOpenIndex] = useState(null);
+            
+            const faqs = [
+                {
+                    q: "Почему такая стоимость? В школьном лагере дешевле",
+                    a: "В школьном лагере дешевле, потому что там другие задачи — присмотр и досуг. Мы создаем образовательную среду. В стоимость входит: 3-разовое сбалансированное питание, работа с профессиональным оборудованием (микроскопы, робототехника), экскурсии, трансферы, фирменный мерч и работа профильных педагогов."
+                },
+                {
+                    q: "А если ребенок заболеет? Деньги сгорят?",
+                    a: "Мы не возвращаем 100% суммы (бронь расходов), но мы понимаем риски. Если есть справка от врача, мы переносим дни на следующую смену."
+                },
+                {
+                    q: "Кто вожатые? Студенты?",
+                    a: "У нас отличный баланс: опытные менторы (25+ лет) обеспечивают методику и безопасность, а энергичные студенты (прошедшие нашу Школу Вожатых) создают драйв и атмосферу, в которой детям легко и весело. Все проходят строгий отбор."
+                }
+            ];
+
+            return (
+                <section id="вопросы" className="py-24 bg-deep">
+                    <div className="container mx-auto px-6 max-w-4xl">
+                        <h2 className="text-3xl md:text-5xl font-bold text-white text-center mb-12 font-cinematic uppercase">Честные ответы (FAQ)</h2>
+                        <div className="space-y-4">
+                            {faqs.map((item, idx) => (
+                                <div key={idx} className="border border-white/10 rounded-lg overflow-hidden bg-white/5">
+                                    <button 
+                                        onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+                                        className="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
+                                    >
+                                        <span className="text-white font-bold text-lg">{item.q}</span>
+                                        <Icons.ChevronRight className={`w-5 h-5 text-amber-400 transition-transform ${openIndex === idx ? 'rotate-90' : ''}`}/>
+                                    </button>
+                                    <div className={`px-6 text-slate-400 overflow-hidden transition-all duration-300 ${openIndex === idx ? 'max-h-48 pb-6' : 'max-h-0'}`}>
+                                        {item.a}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const Pricing = () => {
+             return (
+                <section className="py-24 bg-deep relative border-t border-white/5" id="pricing">
+                    <div className="container mx-auto px-6 relative z-10">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl md:text-6xl font-bold text-white mb-4 font-cinematic uppercase">Бортовой журнал</h2>
+                            <p className="text-amber-400 font-bold tracking-widest uppercase text-sm">Специальные цены</p>
+                        </div>
+                        
+                        <div className="grid lg:grid-cols-2 gap-12">
+                            {/* Левая колонка: Инфо */}
+                            <div>
+                                <div className="space-y-6">
+                                    <div className="flex items-start gap-6 p-8 bg-slate-800 rounded-xl border border-white/10 shadow-lg hover:border-amber-400/30 transition-all">
+                                        <Icons.Clock className="w-8 h-8 text-amber-400 shrink-0" />
+                                        <div>
+                                            <h4 className="text-xl font-bold text-white mb-2">Режим дня</h4>
+                                            <p className="text-slate-200 text-lg">Базовое время: <span className="text-white font-bold">09:00 — 18:00</span></p>
+                                            <p className="text-slate-400 text-sm mt-2">Возможен продленный формат (с утра и вечером) для удобства графика работы родителей и для работы над индивидуальными проектами</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-6 p-8 bg-slate-800 rounded-xl border border-white/10 shadow-lg hover:border-amber-400/30 transition-all">
+                                        <Icons.MapPin className="w-8 h-8 text-amber-400 shrink-0" />
+                                        <div>
+                                            <h4 className="text-xl font-bold text-white mb-2">Локация и Питание</h4>
+                                            <p className="text-slate-200 text-lg">Арбеково + Мастер-классы и экскурсии</p>
+                                            <p className="text-slate-400 text-sm mt-2">3-разовое сбалансированное питание ("Космическое меню")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Правая колонка: Тарифы */}
+                            <div className="bg-gradient-to-br from-slate-800 to-indigo-950 p-6 md:p-6 rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                                <div className="flex justify-between items-end mb-4 relative z-10">
+                                    <h3 className="text-xl font-bold text-white">Тарифы 2026</h3>
+                                    <div className="text-right">
+                                        <span className="text-amber-400 text-[10px] font-bold uppercase tracking-widest block">Раннее бронирование</span>
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5 relative z-10">
+                                    
+                                    {/* Тариф Разведчик */}
+                                    <div className="p-3 rounded-lg bg-slate-900/80 border border-white/10 flex justify-between items-center group hover:border-amber-400/50 transition-all cursor-pointer">
+                                        <div><div className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Разведчик</div><div className="font-bold text-white text-sm">5 дней</div></div>
+                                        <div className="text-right"><div className="text-base font-bold text-white">15 990 ₽</div></div>
+                                    </div>
+
+                                    {/* Тариф Кадет */}
+                                    <div className="p-3 rounded-lg bg-slate-900/80 border border-white/10 flex justify-between items-center group hover:border-amber-400/50 transition-all cursor-pointer">
+                                        <div><div className="text-amber-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Кадет</div><div className="font-bold text-white text-sm">1 Сезон (10 дней)</div></div>
+                                        <div className="text-right">
+                                            <span className="bg-purple-500/20 text-purple-300 text-[9px] px-1.5 py-0.5 rounded ml-1">Рассрочка 0%</span>
+                                            <div className="text-[10px] text-slate-500 line-through decoration-red-500">32 000 ₽</div>
+                                            <div className="text-base font-bold text-white">27 990 ₽</div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Тариф Исследователь (ХИТ) */}
+                                    <div className="p-3 rounded-lg bg-white/10 border border-amber-400/60 flex justify-between items-center relative overflow-hidden shadow-[0_0_20px_rgba(251,191,36,0.1)] transform scale-[1.01]">
+                                        <div className="absolute top-0 right-0 bg-amber-400 text-black text-[9px] font-bold px-2 py-0.5 uppercase rounded-bl">Хит</div>
+                                        <div><div className="text-amber-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Исследователь</div><div className="font-bold text-white text-sm">2 Сезона (4 недели)</div></div>
+                                        <div className="text-right">
+                                            <span className="bg-purple-500/20 text-purple-300 text-[9px] px-1.5 py-0.5 rounded ml-1">Рассрочка 0%</span>
+                                            <div className="text-[10px] text-slate-400 line-through decoration-red-500">55 980 ₽</div>
+                                            <div className="text-base font-bold text-white">50 990 ₽</div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Тариф Командор */}
+                                    <div className="p-3 rounded-lg bg-slate-900/80 border border-white/10 flex justify-between items-center group hover:border-purple-400/50 transition-all cursor-pointer">
+                                        <div><div className="text-purple-400 text-[10px] font-bold uppercase tracking-widest mb-0.5">Командор</div><div className="font-bold text-white text-sm">Все лето (VIP)</div></div>
+                                        <div className="text-right"><div className="text-[10px] text-slate-500 line-through decoration-red-500">111 960 ₽</div><div className="text-base font-bold text-white">94 990 ₽</div></div>
+                                    </div>
+
+                                    {/* Половина дня */}
+                                    <div className="p-2 rounded border border-white/5 flex flex-row justify-between items-center opacity-70 hover:opacity-100 transition-opacity">
+                                        <div className="text-[10px] text-slate-300 font-bold uppercase tracking-widest pl-1 flex-1">Половина дня - 5 дней</div>
+                                        <div className="text-sm font-bold text-white whitespace-nowrap ml-2">9 990 ₽</div>
+                                    </div>
+                                </div>
+                                
+                                {/* Кнопка */}
+                                <div className="mt-4">
+                                    <button onClick={() => document.getElementById('contacts').scrollIntoView({behavior: 'smooth'})} className="w-full py-3 bg-amber-400 text-black font-bold uppercase tracking-widest text-xs hover:bg-white hover:scale-105 transition-all rounded-sm shadow-[0_0_20px_rgba(251,191,36,0.3)]">Забронировать (Бронь 5000₽)</button>
+                                    <p className="text-center text-slate-400 text-[10px] mt-2">Внесите 5000₽ сейчас, чтобы зафиксировать скидку</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+             );
+        };
+
+        const Footer = () => (
+            <footer className="bg-deep py-16 border-t border-white/10" id="contacts">
+                <div className="container mx-auto px-6">
+                    <div className="grid md:grid-cols-2 gap-12 mb-12 items-start">
+                        <div>
+                            <h2 className="text-3xl font-bold text-white mb-6 font-cinematic uppercase tracking-widest text-slate-700">Невозможное начинается<br/>с первого шага</h2>
+                            <p className="text-slate-400 mb-8 max-w-md">Количество мест в группах строго ограничено (15 человек). Заполнять форму не обязательно — просто напишите нам в удобный мессенджер или позвоните.</p>
+                            <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-amber-500 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest transition-all rounded shadow-neon mb-4 md:mb-0">
+                                <Icons.Send className="w-5 h-5" /> Написать в Telegram
+                            </a>
+                        </div>
+                        <div className="flex flex-col justify-between h-full">
+                            <div>
+                                <h2 className="text-4xl font-bold text-white font-cinematic uppercase tracking-wider mb-6">ТРИ КИТА</h2>
+                                <p className="text-slate-300 mb-4 flex items-center gap-2"><Icons.MapPin className="w-5 h-5 text-amber-500"/> Пенза, ул. Ладожская, 153 (ост. ТЦ "Весна")</p>
+                                <a href="tel:+79374037248" className="text-amber-500 font-bold text-2xl mb-8 flex items-center gap-2 hover:text-white transition-colors"><Icons.Phone className="w-5 h-5"/> +7 (937) 403-72-48</a>
+                                <div className="flex gap-4">
+                                    <a href="https://vk.com/trikita.school.penza" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-full hover:bg-blue-600 transition-colors text-white"><Icons.Vk className="w-5 h-5"/></a>
+                                    <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-full hover:bg-blue-400 transition-colors text-white"><Icons.Send className="w-5 h-5"/></a>
+                                    <a href="https://www.instagram.com/trikita.school.penza/" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-full hover:bg-pink-600 transition-colors text-white"><Icons.Instagram className="w-5 h-5"/></a>
+                                </div>
+                            </div>
+                            <div className="text-xs text-slate-500 space-y-2 mt-12 max-w-sm">
+                                <p className="leading-tight">*Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещенной в РФ.</p>
+                                <a href="https://drive.google.com/file/d/1B0BZo2Rz3D6dtuljZ3D031t4qPvWT3SC/view?usp=sharing" target="_blank" className="block hover:text-white transition-colors">Лицензия на образовательную деятельность</a>
+                                <button onClick={() => window.openPrivacyModal()} className="block hover:text-white transition-colors text-left w-full">Политика конфиденциальности</button>
+                                <p className="pt-4">© 2026 ТриКита. Все права защищены.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        );
+
+        const App = () => {
+            const [privacyOpen, setPrivacyOpen] = useState(false);
+            
+            // Expose function to window for Footer button
+            useEffect(() => {
+                window.openPrivacyModal = () => setPrivacyOpen(true);
+            }, []);
+
+            return (
+                <div className="min-h-screen font-sans selection:bg-amber-500 selection:text-black">
+                    <Nav />
+                    <Hero onOpenVideo={() => setVideoOpen(true)} /> 
+                    <RealityCheck />
+                    <Methodology />
+                    <Events />
+                    <MissionRadar />
+                    <SkillTree />
+                    <Security />
+                    <Gallery />
+                    <FAQ />
+                    <Pricing />
+                    <Footer />
+                    <CookieConsent onOpenPrivacy={() => setPrivacyOpen(true)} />
+                    <PrivacyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
