@@ -1343,11 +1343,11 @@
 
         const LeadForm = () => {
             const [status, setStatus] = useState('idle'); // idle | sending | success | error
-            const [form, setForm] = useState({ name: '', phone: '', tariff: '' });
+            const [form, setForm] = useState({ name: '', childName: '', childAge: '', phone: '', tariff: '' });
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                if (!form.name.trim() || !form.phone.trim()) return;
+                if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) return;
                 setStatus('sending');
                 try {
                     // ВАЖНО: замените YOUR_FORM_ID на ваш ID с https://formspree.io (бесплатно).
@@ -1355,7 +1355,9 @@
                         method: 'POST',
                         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            Имя: form.name,
+                            'Имя родителя': form.name,
+                            'Имя ребёнка': form.childName,
+                            'Возраст ребёнка': form.childAge,
                             Телефон: form.phone,
                             'Интересует тариф': form.tariff || 'не указан',
                             Источник: 'Сайт «Энциклопедия Невозможного»'
@@ -1392,13 +1394,33 @@
                         ) : (
                             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-2xl space-y-5">
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Имя ребёнка или родителя *</label>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Имя родителя *</label>
                                     <input
                                         type="text" required value={form.name}
                                         onChange={(e) => setForm({ ...form, name: e.target.value })}
                                         className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors"
                                         placeholder="Например, Екатерина"
                                     />
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                                    <div className="sm:col-span-2">
+                                        <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Имя ребёнка *</label>
+                                        <input
+                                            type="text" required value={form.childName}
+                                            onChange={(e) => setForm({ ...form, childName: e.target.value })}
+                                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors"
+                                            placeholder="Например, Артём"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Возраст *</label>
+                                        <input
+                                            type="number" required min="4" max="17" value={form.childAge}
+                                            onChange={(e) => setForm({ ...form, childAge: e.target.value })}
+                                            className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors"
+                                            placeholder="лет"
+                                        />
+                                    </div>
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Телефон *</label>

@@ -1655,12 +1655,14 @@ const LeadForm = () => {
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [form, setForm] = useState({
     name: '',
+    childName: '',
+    childAge: '',
     phone: '',
     tariff: ''
   });
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim()) return;
+    if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) return;
     setStatus('sending');
     try {
       // ВАЖНО: замените YOUR_FORM_ID на ваш ID с https://formspree.io (бесплатно).
@@ -1671,7 +1673,9 @@ const LeadForm = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          Имя: form.name,
+          'Имя родителя': form.name,
+          'Имя ребёнка': form.childName,
+          'Возраст ребёнка': form.childAge,
           Телефон: form.phone,
           'Интересует тариф': form.tariff || 'не указан',
           Источник: 'Сайт «Энциклопедия Невозможного»'
@@ -1719,7 +1723,7 @@ const LeadForm = () => {
     className: "glass-panel p-8 md:p-10 rounded-2xl space-y-5"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
-  }, "\u0418\u043C\u044F \u0440\u0435\u0431\u0451\u043D\u043A\u0430 \u0438\u043B\u0438 \u0440\u043E\u0434\u0438\u0442\u0435\u043B\u044F *"), /*#__PURE__*/React.createElement("input", {
+  }, "\u0418\u043C\u044F \u0440\u043E\u0434\u0438\u0442\u0435\u043B\u044F *"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     required: true,
     value: form.name,
@@ -1729,7 +1733,37 @@ const LeadForm = () => {
     }),
     className: "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors",
     placeholder: "\u041D\u0430\u043F\u0440\u0438\u043C\u0435\u0440, \u0415\u043A\u0430\u0442\u0435\u0440\u0438\u043D\u0430"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "grid grid-cols-1 sm:grid-cols-3 gap-5"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sm:col-span-2"
+  }, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
+  }, "\u0418\u043C\u044F \u0440\u0435\u0431\u0451\u043D\u043A\u0430 *"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    required: true,
+    value: form.childName,
+    onChange: e => setForm({
+      ...form,
+      childName: e.target.value
+    }),
+    className: "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors",
+    placeholder: "\u041D\u0430\u043F\u0440\u0438\u043C\u0435\u0440, \u0410\u0440\u0442\u0451\u043C"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
+  }, "\u0412\u043E\u0437\u0440\u0430\u0441\u0442 *"), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    required: true,
+    min: "4",
+    max: "17",
+    value: form.childAge,
+    onChange: e => setForm({
+      ...form,
+      childAge: e.target.value
+    }),
+    className: "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors",
+    placeholder: "\u043B\u0435\u0442"
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2"
   }, "\u0422\u0435\u043B\u0435\u0444\u043E\u043D *"), /*#__PURE__*/React.createElement("input", {
     type: "tel",
