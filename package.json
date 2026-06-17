@@ -1,0 +1,19 @@
+{
+  "name": "website-summer-2026",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "description": "Лендинг летнего лагеря ТриКита. Источник — index.src.html, сборка генерирует index.html (предрендеренный, SEO-friendly) и app.js.",
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^7.24.0",
+    "sharp": "^0.33.0"
+  }
+}
