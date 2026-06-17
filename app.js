@@ -1,4 +1,6 @@
 (function(){
+  if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') return; // нет React — оставляем статичный контент
+  try {
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
 const {
   useState,
@@ -1800,5 +1802,8 @@ const App = () => {
     onOpenVideo: () => setVideoOpen(true)
   }));
 };
-ReactDOM.hydrateRoot(document.getElementById('root'), React.createElement(App));
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+  } catch (e) {
+    if (window.console && console.error) console.error('Ошибка инициализации приложения:', e);
+  }
 })();

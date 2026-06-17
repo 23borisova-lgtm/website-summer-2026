@@ -39,11 +39,19 @@ const factory = new Function('React', compiled + '\n;return App;');
 const App = factory(React);
 const ssrHtml = renderToString(React.createElement(App));
 
-// 5. Клиентский бандл: тот же код + гидрация
+// 5. Клиентский бандл: тот же код + рендер.
+// Используем createRoot (а не hydrateRoot): он надёжно перерисовывает контент и
+// НЕ роняет страницу при любых расхождениях разметки. Предрендер остаётся для SEO
+// и как запасной вид, если JS не загрузится.
 const clientJs =
 `(function(){
+  if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') return; // нет React — оставляем статичный контент
+  try {
 ${compiled}
-ReactDOM.hydrateRoot(document.getElementById('root'), React.createElement(App));
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+  } catch (e) {
+    if (window.console && console.error) console.error('Ошибка инициализации приложения:', e);
+  }
 })();`;
 fs.writeFileSync(OUT_JS, clientJs, 'utf8');
 
@@ -51,9 +59,9 @@ fs.writeFileSync(OUT_JS, clientJs, 'utf8');
 let out = srcHtml;
 // убираем Babel-компилятор из браузера (больше не нужен)
 out = out.replace(/\s*<!-- Babel for JSX -->\s*<script src="https:\/\/unpkg\.com\/@babel\/standalone\/babel\.min\.js"><\/script>/, '');
-// пиним версии React под серверный рендер (совпадение версий для гидрации)
-out = out.replace('https://unpkg.com/react@18/umd/react.production.min.js', 'https://unpkg.com/[email protected]/umd/react.production.min.js');
-out = out.replace('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', 'https://unpkg.com/[email protected]/umd/react-dom.production.min.js');
+// React грузим локально из репозитория (без зависимости от внешнего CDN)
+out = out.replace('https://unpkg.com/react@18/umd/react.production.min.js', 'vendor/react.production.min.js');
+out = out.replace('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', 'vendor/react-dom.production.min.js');
 // вставляем предрендеренный HTML внутрь #root
 out = out.replace('<div id="root"></div>', `<div id="root">${ssrHtml}</div>`);
 // заменяем babel-скрипт на обычный скомпилированный app.js
