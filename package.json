@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node build.mjs"
+    "prerender": "node build.mjs"
   },
   "description": "Лендинг летнего лагеря ТриКита. Источник — index.src.html, сборка генерирует index.html (предрендеренный, SEO-friendly) и app.js.",
   "dependencies": {
