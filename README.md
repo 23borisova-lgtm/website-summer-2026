@@ -18,7 +18,10 @@
 ## Что нужно дозаполнить
 
 - **Яндекс.Метрика** — счётчик 109919770 уже подключён (Вебвизор, цели: `lead`, `booking_click`, `telegram`, `phone`).
-- **Форма заявки** — пока отправляет на Formspree (`YOUR_FORM_ID` в `index.src.html` нужно заменить на реальный ID, либо перенастроить отправку в MAX/CRM).
+- **Форма заявки** → функция `api/lead.js`: создаёт лид в **AlfaCRM** и шлёт уведомление админу в **MAX**.
+  Чтобы заработало, в Vercel (Settings → Environment Variables) нужно задать переменные из `.env.example`:
+  `ALFACRM_HOST`, `ALFACRM_EMAIL`, `ALFACRM_API_KEY`, `ALFACRM_BRANCH`, и для MAX — `MAX_BOT_TOKEN` + `MAX_ADMIN_USER_ID`.
+  После сохранения переменных сделать Redeploy.
 
 ## Картинки
 

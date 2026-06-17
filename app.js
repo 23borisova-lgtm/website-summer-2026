@@ -1665,20 +1665,19 @@ const LeadForm = () => {
     if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) return;
     setStatus('sending');
     try {
-      // ВАЖНО: замените YOUR_FORM_ID на ваш ID с https://formspree.io (бесплатно).
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      // Заявка уходит на нашу функцию /api/lead → AlfaCRM (лид) + уведомление админу в MAX.
+      const res = await fetch('/api/lead', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          'Имя родителя': form.name,
-          'Имя ребёнка': form.childName,
-          'Возраст ребёнка': form.childAge,
-          Телефон: form.phone,
-          'Интересует тариф': form.tariff || 'не указан',
-          Источник: 'Сайт «Энциклопедия Невозможного»'
+          parentName: form.name,
+          childName: form.childName,
+          childAge: form.childAge,
+          phone: form.phone,
+          tariff: form.tariff || ''
         })
       });
       if (res.ok) {
