@@ -1418,18 +1418,18 @@
                                 </button>
                                 <div className="text-emerald-400 text-5xl mb-4">✓</div>
                                 <h3 className="text-2xl font-bold text-white mb-2">Заявка отправлена!</h3>
-                                <p className="text-slate-400">Мы свяжемся с вами в ближайшее время. А пока можете связаться с нами напрямую — ответим быстрее.</p>
+                                <p className="text-slate-400">Мы свяжемся с вами в ближайшее время. Хотите быстрее — напишите нам в удобный мессенджер:</p>
                                 <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-                                    <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" onClick={() => track('telegram')} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm">
+                                    <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" onClick={() => track('telegram')} className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm">
                                         <Icons.Send className="w-5 h-5" /> Телеграм
                                     </a>
-                                    <a href={MAX_LINK} target="_blank" rel="noopener noreferrer" onClick={() => track('max')} className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest transition-all rounded-sm">
+                                    <a href={MAX_LINK} target="_blank" rel="noopener noreferrer" onClick={() => track('max')} className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest transition-all rounded-sm">
                                         <Icons.Max className="w-5 h-5" /> MAX
                                     </a>
-                                    <a href="tel:+79374037248" onClick={() => track('phone')} className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-widest transition-all rounded-sm">
-                                        <Icons.Phone className="w-5 h-5 text-amber-400" /> Позвонить
-                                    </a>
                                 </div>
+                                <p className="text-slate-400 text-sm mt-6 flex items-center justify-center gap-2">
+                                    <Icons.Phone className="w-4 h-4 text-amber-400" /> Или позвоните: <span className="text-white font-bold select-all">+7 (937) 403-72-48</span>
+                                </p>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-2xl space-y-5">

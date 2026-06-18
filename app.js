@@ -1780,14 +1780,14 @@ const LeadForm = () => {
     className: "text-2xl font-bold text-white mb-2"
   }, "\u0417\u0430\u044F\u0432\u043A\u0430 \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0430!"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-400"
-  }, "\u041C\u044B \u0441\u0432\u044F\u0436\u0435\u043C\u0441\u044F \u0441 \u0432\u0430\u043C\u0438 \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043C\u044F. \u0410 \u043F\u043E\u043A\u0430 \u043C\u043E\u0436\u0435\u0442\u0435 \u0441\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F \u0441 \u043D\u0430\u043C\u0438 \u043D\u0430\u043F\u0440\u044F\u043C\u0443\u044E \u2014 \u043E\u0442\u0432\u0435\u0442\u0438\u043C \u0431\u044B\u0441\u0442\u0440\u0435\u0435."), /*#__PURE__*/React.createElement("div", {
+  }, "\u041C\u044B \u0441\u0432\u044F\u0436\u0435\u043C\u0441\u044F \u0441 \u0432\u0430\u043C\u0438 \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043C\u044F. \u0425\u043E\u0442\u0438\u0442\u0435 \u0431\u044B\u0441\u0442\u0440\u0435\u0435 \u2014 \u043D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u043D\u0430\u043C \u0432 \u0443\u0434\u043E\u0431\u043D\u044B\u0439 \u043C\u0435\u0441\u0441\u0435\u043D\u0434\u0436\u0435\u0440:"), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col sm:flex-row gap-3 justify-center mt-6"
   }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/TriKitaPenza",
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('telegram'),
-    className: "inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm"
+    className: "inline-flex items-center justify-center gap-2 px-8 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm"
   }, /*#__PURE__*/React.createElement(Icons.Send, {
     className: "w-5 h-5"
   }), " \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C"), /*#__PURE__*/React.createElement("a", {
@@ -1795,16 +1795,16 @@ const LeadForm = () => {
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('max'),
-    className: "inline-flex items-center justify-center gap-2 px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest transition-all rounded-sm"
+    className: "inline-flex items-center justify-center gap-2 px-8 py-3 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest transition-all rounded-sm"
   }, /*#__PURE__*/React.createElement(Icons.Max, {
     className: "w-5 h-5"
-  }), " MAX"), /*#__PURE__*/React.createElement("a", {
-    href: "tel:+79374037248",
-    onClick: () => track('phone'),
-    className: "inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-widest transition-all rounded-sm"
+  }), " MAX")), /*#__PURE__*/React.createElement("p", {
+    className: "text-slate-400 text-sm mt-6 flex items-center justify-center gap-2"
   }, /*#__PURE__*/React.createElement(Icons.Phone, {
-    className: "w-5 h-5 text-amber-400"
-  }), " \u041F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u044C"))) : /*#__PURE__*/React.createElement("form", {
+    className: "w-4 h-4 text-amber-400"
+  }), " \u0418\u043B\u0438 \u043F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u0435: ", /*#__PURE__*/React.createElement("span", {
+    className: "text-white font-bold select-all"
+  }, "+7 (937) 403-72-48"))) : /*#__PURE__*/React.createElement("form", {
     onSubmit: handleSubmit,
     className: "glass-panel p-8 md:p-10 rounded-2xl space-y-5"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
