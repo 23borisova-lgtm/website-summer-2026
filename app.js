@@ -249,39 +249,24 @@ const Icons = {
   })),
   Max: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
     xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 48 48",
-    fill: "none"
-  }), /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
-    id: "maxGrad",
-    gradientUnits: "userSpaceOnUse",
-    x1: "6",
-    y1: "43",
-    x2: "42",
-    y2: "5"
-  }, /*#__PURE__*/React.createElement("stop", {
-    offset: "0",
-    stopColor: "#3FC9FF"
-  }), /*#__PURE__*/React.createElement("stop", {
-    offset: "0.5",
-    stopColor: "#4B63F0"
-  }), /*#__PURE__*/React.createElement("stop", {
-    offset: "1",
-    stopColor: "#9D4EDD"
-  }))), /*#__PURE__*/React.createElement("rect", {
-    x: "1.5",
-    y: "1.5",
-    width: "45",
-    height: "45",
-    rx: "12",
-    fill: "url(#maxGrad)"
-  }), /*#__PURE__*/React.createElement("path", {
-    d: "M24.5 5.5c8.6 0 15.6 6.9 15.6 15.4 0 8.5-7 15.4-15.6 15.4-2.6 0-5.1-.6-7.2-1.7l-5.6 4.2c-.8.6-1.9-.1-1.7-1.1l1.3-6.4c-1.9-2.7-3-6-3-9.4C8.9 12.4 15.9 5.5 24.5 5.5z",
-    fill: "#fff"
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.5",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "2.5",
+    y: "2.5",
+    width: "19",
+    height: "19",
+    rx: "5.5"
   }), /*#__PURE__*/React.createElement("circle", {
-    cx: "25",
-    cy: "20.8",
-    r: "6.7",
-    fill: "url(#maxGrad)"
+    cx: "12",
+    cy: "11.3",
+    r: "4.2"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M9 14.4 L7.6 17.8"
   })),
   Award: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
     xmlns: "http://www.w3.org/2000/svg",
@@ -1576,11 +1561,10 @@ const Footer = () => {
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('max'),
-    "aria-label": "\u041D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u0432 MAX",
-    className: "inline-flex items-center justify-center w-[42px] h-[42px] bg-white/5 rounded-full hover:bg-white/10 transition-colors text-white"
+    className: "inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest text-xs transition-all rounded shadow-neon"
   }, /*#__PURE__*/React.createElement(Icons.Max, {
-    className: "w-5 h-5"
-  })))), /*#__PURE__*/React.createElement("div", {
+    className: "w-4 h-4"
+  }), " MAX"))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col justify-between h-full"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     className: "text-4xl font-bold text-white font-cinematic uppercase tracking-wider mb-6"
