@@ -1576,10 +1576,11 @@ const Footer = () => {
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('max'),
-    className: "inline-flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest text-xs transition-all rounded"
+    "aria-label": "\u041D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u0432 MAX",
+    className: "inline-flex items-center justify-center w-[42px] h-[42px] bg-white/5 rounded-full hover:bg-white/10 transition-colors text-white"
   }, /*#__PURE__*/React.createElement(Icons.Max, {
-    className: "w-4 h-4"
-  }), " MAX"))), /*#__PURE__*/React.createElement("div", {
+    className: "w-5 h-5"
+  })))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col justify-between h-full"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     className: "text-4xl font-bold text-white font-cinematic uppercase tracking-wider mb-6"
