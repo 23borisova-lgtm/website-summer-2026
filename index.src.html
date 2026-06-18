@@ -1344,10 +1344,26 @@
         const LeadForm = () => {
             const [status, setStatus] = useState('idle'); // idle | sending | success | error
             const [form, setForm] = useState({ name: '', childName: '', childAge: '', phone: '', tariff: '' });
+            const [formError, setFormError] = useState('');
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) return;
+                // Проверка перед отправкой: все обязательные поля + корректный телефон и возраст.
+                const phoneDigits = (form.phone || '').replace(/\D/g, '');
+                const age = parseInt(form.childAge, 10);
+                if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) {
+                    setFormError('Пожалуйста, заполните все обязательные поля.');
+                    return;
+                }
+                if (isNaN(age) || age < 4 || age > 17) {
+                    setFormError('Укажите возраст ребёнка числом от 4 до 17.');
+                    return;
+                }
+                if (phoneDigits.length < 10) {
+                    setFormError('Укажите корректный номер телефона (не меньше 10 цифр).');
+                    return;
+                }
+                setFormError('');
                 setStatus('sending');
                 try {
                     // Заявка уходит на нашу функцию /api/lead → AlfaCRM (лид) + уведомление админу в MAX.
@@ -1385,10 +1401,15 @@
                             <div className="glass-panel p-10 rounded-2xl text-center border border-emerald-500/30">
                                 <div className="text-emerald-400 text-5xl mb-4">✓</div>
                                 <h3 className="text-2xl font-bold text-white mb-2">Заявка отправлена!</h3>
-                                <p className="text-slate-400">Мы свяжемся с вами в ближайшее время. А пока можете написать нам в Телеграм — ответим быстрее.</p>
-                                <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" onClick={() => track('telegram')} className="inline-flex items-center gap-3 mt-6 px-8 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm">
-                                    <Icons.Send className="w-5 h-5" /> Написать в Телеграм
-                                </a>
+                                <p className="text-slate-400">Мы свяжемся с вами в ближайшее время. А пока можете связаться с нами напрямую — ответим быстрее.</p>
+                                <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
+                                    <a href="https://t.me/TriKitaPenza" target="_blank" rel="noopener noreferrer" onClick={() => track('telegram')} className="inline-flex items-center justify-center gap-3 px-6 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm">
+                                        <Icons.Send className="w-5 h-5" /> Телеграм
+                                    </a>
+                                    <a href="tel:+79374037248" onClick={() => track('phone')} className="inline-flex items-center justify-center gap-3 px-6 py-3 border border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-widest transition-all rounded-sm">
+                                        <Icons.Phone className="w-5 h-5 text-amber-400" /> Позвонить
+                                    </a>
+                                </div>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-2xl space-y-5">
@@ -1425,7 +1446,8 @@
                                     <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Телефон *</label>
                                     <input
                                         type="tel" required value={form.phone}
-                                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                                        inputMode="tel" autoComplete="tel" maxLength={18}
+                                        onChange={(e) => { setForm({ ...form, phone: e.target.value }); if (formError) setFormError(''); }}
                                         className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors"
                                         placeholder="+7 (___) ___-__-__"
                                     />
@@ -1445,6 +1467,9 @@
                                     </select>
                                 </div>
 
+                                {formError && (
+                                    <p className="text-red-400 text-sm">{formError}</p>
+                                )}
                                 {status === 'error' && (
                                     <p className="text-red-400 text-sm">Не удалось отправить. Напишите нам напрямую в Телеграм @TriKitaPenza или по телефону.</p>
                                 )}

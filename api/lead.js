@@ -97,6 +97,16 @@ export default async function handler(req, res) {
     res.status(400).json({ ok: false, error: 'Заполните имя родителя, имя и возраст ребёнка, телефон' });
     return;
   }
+  const phoneDigits = phone.replace(/\D/g, '');
+  if (phoneDigits.length < 10) {
+    res.status(400).json({ ok: false, error: 'Некорректный номер телефона' });
+    return;
+  }
+  const ageNum = parseInt(childAge, 10);
+  if (Number.isNaN(ageNum) || ageNum < 4 || ageNum > 17) {
+    res.status(400).json({ ok: false, error: 'Некорректный возраст ребёнка' });
+    return;
+  }
 
   const payload = { parentName, childName, childAge, phone, tariff };
 

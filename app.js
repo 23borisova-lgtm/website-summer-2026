@@ -1660,9 +1660,25 @@ const LeadForm = () => {
     phone: '',
     tariff: ''
   });
+  const [formError, setFormError] = useState('');
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) return;
+    // Проверка перед отправкой: все обязательные поля + корректный телефон и возраст.
+    const phoneDigits = (form.phone || '').replace(/\D/g, '');
+    const age = parseInt(form.childAge, 10);
+    if (!form.name.trim() || !form.childName.trim() || !form.childAge.trim() || !form.phone.trim()) {
+      setFormError('Пожалуйста, заполните все обязательные поля.');
+      return;
+    }
+    if (isNaN(age) || age < 4 || age > 17) {
+      setFormError('Укажите возраст ребёнка числом от 4 до 17.');
+      return;
+    }
+    if (phoneDigits.length < 10) {
+      setFormError('Укажите корректный номер телефона (не меньше 10 цифр).');
+      return;
+    }
+    setFormError('');
     setStatus('sending');
     try {
       // Заявка уходит на нашу функцию /api/lead → AlfaCRM (лид) + уведомление админу в MAX.
@@ -1709,15 +1725,23 @@ const LeadForm = () => {
     className: "text-2xl font-bold text-white mb-2"
   }, "\u0417\u0430\u044F\u0432\u043A\u0430 \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0430!"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-400"
-  }, "\u041C\u044B \u0441\u0432\u044F\u0436\u0435\u043C\u0441\u044F \u0441 \u0432\u0430\u043C\u0438 \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043C\u044F. \u0410 \u043F\u043E\u043A\u0430 \u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u043D\u0430\u043C \u0432 \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C \u2014 \u043E\u0442\u0432\u0435\u0442\u0438\u043C \u0431\u044B\u0441\u0442\u0440\u0435\u0435."), /*#__PURE__*/React.createElement("a", {
+  }, "\u041C\u044B \u0441\u0432\u044F\u0436\u0435\u043C\u0441\u044F \u0441 \u0432\u0430\u043C\u0438 \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043C\u044F. \u0410 \u043F\u043E\u043A\u0430 \u043C\u043E\u0436\u0435\u0442\u0435 \u0441\u0432\u044F\u0437\u0430\u0442\u044C\u0441\u044F \u0441 \u043D\u0430\u043C\u0438 \u043D\u0430\u043F\u0440\u044F\u043C\u0443\u044E \u2014 \u043E\u0442\u0432\u0435\u0442\u0438\u043C \u0431\u044B\u0441\u0442\u0440\u0435\u0435."), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-col sm:flex-row gap-3 justify-center mt-6"
+  }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/TriKitaPenza",
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('telegram'),
-    className: "inline-flex items-center gap-3 mt-6 px-8 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm"
+    className: "inline-flex items-center justify-center gap-3 px-6 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm"
   }, /*#__PURE__*/React.createElement(Icons.Send, {
     className: "w-5 h-5"
-  }), " \u041D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u0432 \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C")) : /*#__PURE__*/React.createElement("form", {
+  }), " \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C"), /*#__PURE__*/React.createElement("a", {
+    href: "tel:+79374037248",
+    onClick: () => track('phone'),
+    className: "inline-flex items-center justify-center gap-3 px-6 py-3 border border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-widest transition-all rounded-sm"
+  }, /*#__PURE__*/React.createElement(Icons.Phone, {
+    className: "w-5 h-5 text-amber-400"
+  }), " \u041F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u044C"))) : /*#__PURE__*/React.createElement("form", {
     onSubmit: handleSubmit,
     className: "glass-panel p-8 md:p-10 rounded-2xl space-y-5"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1768,10 +1792,16 @@ const LeadForm = () => {
     type: "tel",
     required: true,
     value: form.phone,
-    onChange: e => setForm({
-      ...form,
-      phone: e.target.value
-    }),
+    inputMode: "tel",
+    autoComplete: "tel",
+    maxLength: 18,
+    onChange: e => {
+      setForm({
+        ...form,
+        phone: e.target.value
+      });
+      if (formError) setFormError('');
+    },
     className: "w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none transition-colors",
     placeholder: "+7 (___) ___-__-__"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
@@ -1798,7 +1828,9 @@ const LeadForm = () => {
   }, "\u0418\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u2014 2 \u0441\u0435\u0437\u043E\u043D\u0430 (4 \u043D\u0435\u0434\u0435\u043B\u0438)"), /*#__PURE__*/React.createElement("option", {
     value: "\u041A\u043E\u043C\u0430\u043D\u0434\u043E\u0440 (\u0432\u0441\u0451 \u043B\u0435\u0442\u043E)",
     className: "bg-slate-900"
-  }, "\u041A\u043E\u043C\u0430\u043D\u0434\u043E\u0440 \u2014 \u0432\u0441\u0451 \u043B\u0435\u0442\u043E"))), status === 'error' && /*#__PURE__*/React.createElement("p", {
+  }, "\u041A\u043E\u043C\u0430\u043D\u0434\u043E\u0440 \u2014 \u0432\u0441\u0451 \u043B\u0435\u0442\u043E"))), formError && /*#__PURE__*/React.createElement("p", {
+    className: "text-red-400 text-sm"
+  }, formError), status === 'error' && /*#__PURE__*/React.createElement("p", {
     className: "text-red-400 text-sm"
   }, "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C. \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u043D\u0430\u043C \u043D\u0430\u043F\u0440\u044F\u043C\u0443\u044E \u0432 \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C @TriKitaPenza \u0438\u043B\u0438 \u043F\u043E \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u0443."), /*#__PURE__*/React.createElement("button", {
     type: "submit",
