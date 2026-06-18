@@ -249,20 +249,39 @@ const Icons = {
   })),
   Max: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
     xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "1.8",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }), /*#__PURE__*/React.createElement("rect", {
-    x: "3",
-    y: "3",
-    width: "18",
-    height: "18",
-    rx: "5"
+    viewBox: "0 0 48 48",
+    fill: "none"
+  }), /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
+    id: "maxGrad",
+    gradientUnits: "userSpaceOnUse",
+    x1: "6",
+    y1: "43",
+    x2: "42",
+    y2: "5"
+  }, /*#__PURE__*/React.createElement("stop", {
+    offset: "0",
+    stopColor: "#3FC9FF"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: "0.5",
+    stopColor: "#4B63F0"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: "1",
+    stopColor: "#9D4EDD"
+  }))), /*#__PURE__*/React.createElement("rect", {
+    x: "1.5",
+    y: "1.5",
+    width: "45",
+    height: "45",
+    rx: "12",
+    fill: "url(#maxGrad)"
   }), /*#__PURE__*/React.createElement("path", {
-    d: "M7.5 16V8.5l4.5 5 4.5-5V16"
+    d: "M24.5 5.5c8.6 0 15.6 6.9 15.6 15.4 0 8.5-7 15.4-15.6 15.4-2.6 0-5.1-.6-7.2-1.7l-5.6 4.2c-.8.6-1.9-.1-1.7-1.1l1.3-6.4c-1.9-2.7-3-6-3-9.4C8.9 12.4 15.9 5.5 24.5 5.5z",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "25",
+    cy: "20.8",
+    r: "6.7",
+    fill: "url(#maxGrad)"
   })),
   Award: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
     xmlns: "http://www.w3.org/2000/svg",
