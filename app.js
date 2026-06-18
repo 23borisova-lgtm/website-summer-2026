@@ -1522,15 +1522,17 @@ const Footer = () => {
     className: "text-3xl font-bold text-white mb-6 font-cinematic uppercase tracking-widest text-slate-700"
   }, "\u041D\u0435\u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0435 \u043D\u0430\u0447\u0438\u043D\u0430\u0435\u0442\u0441\u044F", /*#__PURE__*/React.createElement("br", null), "\u0441 \u043F\u0435\u0440\u0432\u043E\u0433\u043E \u0448\u0430\u0433\u0430"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-400 mb-8 max-w-md"
-  }, "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043C\u0435\u0441\u0442 \u0432 \u0433\u0440\u0443\u043F\u043F\u0430\u0445 \u0441\u0442\u0440\u043E\u0433\u043E \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u043E (15 \u0447\u0435\u043B\u043E\u0432\u0435\u043A). \u0417\u0430\u043F\u043E\u043B\u043D\u044F\u0442\u044C \u0444\u043E\u0440\u043C\u0443 \u043D\u0435 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u2014 \u043F\u0440\u043E\u0441\u0442\u043E \u043D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u043D\u0430\u043C \u0432 \u0443\u0434\u043E\u0431\u043D\u044B\u0439 \u043C\u0435\u0441\u0441\u0435\u043D\u0434\u0436\u0435\u0440 \u0438\u043B\u0438 \u043F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u0435."), /*#__PURE__*/React.createElement("a", {
+  }, "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u043C\u0435\u0441\u0442 \u0432 \u0433\u0440\u0443\u043F\u043F\u0430\u0445 \u0441\u0442\u0440\u043E\u0433\u043E \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u043E (15 \u0447\u0435\u043B\u043E\u0432\u0435\u043A). \u0417\u0430\u043F\u043E\u043B\u043D\u044F\u0442\u044C \u0444\u043E\u0440\u043C\u0443 \u043D\u0435 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u2014 \u043F\u0440\u043E\u0441\u0442\u043E \u043D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u043D\u0430\u043C \u0432 \u0443\u0434\u043E\u0431\u043D\u044B\u0439 \u043C\u0435\u0441\u0441\u0435\u043D\u0434\u0436\u0435\u0440 \u0438\u043B\u0438 \u043F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u0435."), /*#__PURE__*/React.createElement("div", {
+    className: "flex flex-wrap gap-3"
+  }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/TriKitaPenza",
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('telegram'),
-    className: "inline-flex items-center gap-3 px-8 py-4 bg-amber-500 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest transition-all rounded shadow-neon mb-4 md:mb-0"
+    className: "inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest text-xs transition-all rounded shadow-neon"
   }, /*#__PURE__*/React.createElement(Icons.Send, {
-    className: "w-5 h-5"
-  }), " \u041D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u0432 \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C")), /*#__PURE__*/React.createElement("div", {
+    className: "w-4 h-4"
+  }), " \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C"))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col justify-between h-full"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     className: "text-4xl font-bold text-white font-cinematic uppercase tracking-wider mb-6"
@@ -1718,8 +1720,24 @@ const LeadForm = () => {
   }, "\u0417\u0430\u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043C\u0435\u0441\u0442\u043E"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-400"
   }, "\u041E\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B \u2014 \u043F\u0435\u0440\u0435\u0437\u0432\u043E\u043D\u0438\u043C, \u0440\u0430\u0441\u0441\u043A\u0430\u0436\u0435\u043C \u043E \u0441\u043C\u0435\u043D\u0430\u0445 \u0438 \u0437\u0430\u0444\u0438\u043A\u0441\u0438\u0440\u0443\u0435\u043C \u0441\u043A\u0438\u0434\u043A\u0443 \u0440\u0430\u043D\u043D\u0435\u0433\u043E \u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F. \u041C\u0435\u0441\u0442 \u0432 \u0433\u0440\u0443\u043F\u043F\u0435 \u0432\u0441\u0435\u0433\u043E 15.")), status === 'success' ? /*#__PURE__*/React.createElement("div", {
-    className: "glass-panel p-10 rounded-2xl text-center border border-emerald-500/30"
-  }, /*#__PURE__*/React.createElement("div", {
+    className: "glass-panel p-10 rounded-2xl text-center border border-emerald-500/30 relative"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setStatus('idle');
+      setForm({
+        name: '',
+        childName: '',
+        childAge: '',
+        phone: '',
+        tariff: ''
+      });
+      setFormError('');
+    },
+    "aria-label": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C",
+    className: "absolute top-4 right-4 p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-colors"
+  }, /*#__PURE__*/React.createElement(Icons.X, {
+    className: "w-5 h-5"
+  })), /*#__PURE__*/React.createElement("div", {
     className: "text-emerald-400 text-5xl mb-4"
   }, "\u2713"), /*#__PURE__*/React.createElement("h3", {
     className: "text-2xl font-bold text-white mb-2"
