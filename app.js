@@ -14,6 +14,9 @@ const track = goal => {
   } catch (e) {/* Метрика недоступна — игнорируем */}
 };
 
+// Личная ссылка на админа в MAX (для кнопок «Написать в MAX»)
+const MAX_LINK = "https://max.ru/u/f9LHodD0cOIefn3E7E_go4ilq0-XxrbUTp23Jl67BHReAcndDtCvOShJTTg";
+
 // --- ICONS ---
 const Icons = {
   Play: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
@@ -243,6 +246,23 @@ const Icons = {
     stroke: "none"
   }), /*#__PURE__*/React.createElement("path", {
     d: "M13.6 21.6C7.9 21.6 4.3 17.6 2.7 10H5.6C6.1 14.1 7.9 15.9 9.3 16.3V10H12V13.6C13.7 13.4 15.4 11.5 16 10H18.8C18.3 12.3 16.6 14 15.4 14.7C16.6 15.3 18.5 16.8 19.3 21.6H16.2C15.6 18.9 13.4 16.8 12.3 16.2V21.6H13.6Z"
+  })),
+  Max: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.8",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "3",
+    y: "3",
+    width: "18",
+    height: "18",
+    rx: "5"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M7.5 16V8.5l4.5 5 4.5-5V16"
   })),
   Award: props => /*#__PURE__*/React.createElement("svg", _extends({}, props, {
     xmlns: "http://www.w3.org/2000/svg",
@@ -1532,7 +1552,15 @@ const Footer = () => {
     className: "inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest text-xs transition-all rounded shadow-neon"
   }, /*#__PURE__*/React.createElement(Icons.Send, {
     className: "w-4 h-4"
-  }), " \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C"))), /*#__PURE__*/React.createElement("div", {
+  }), " \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C"), /*#__PURE__*/React.createElement("a", {
+    href: MAX_LINK,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    onClick: () => track('max'),
+    className: "inline-flex items-center gap-2 px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest text-xs transition-all rounded"
+  }, /*#__PURE__*/React.createElement(Icons.Max, {
+    className: "w-4 h-4"
+  }), " MAX"))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-col justify-between h-full"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     className: "text-4xl font-bold text-white font-cinematic uppercase tracking-wider mb-6"
@@ -1561,6 +1589,15 @@ const Footer = () => {
     rel: "noopener noreferrer",
     className: "p-3 bg-white/5 rounded-full hover:bg-blue-400 transition-colors text-white"
   }, /*#__PURE__*/React.createElement(Icons.Send, {
+    className: "w-5 h-5"
+  })), /*#__PURE__*/React.createElement("a", {
+    href: MAX_LINK,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    onClick: () => track('max'),
+    "aria-label": "\u041D\u0430\u043F\u0438\u0441\u0430\u0442\u044C \u0432 MAX",
+    className: "p-3 bg-white/5 rounded-full hover:bg-sky-500 transition-colors text-white"
+  }, /*#__PURE__*/React.createElement(Icons.Max, {
     className: "w-5 h-5"
   })), /*#__PURE__*/React.createElement("a", {
     href: "https://www.instagram.com/trikita.school.penza/",
@@ -1750,13 +1787,21 @@ const LeadForm = () => {
     target: "_blank",
     rel: "noopener noreferrer",
     onClick: () => track('telegram'),
-    className: "inline-flex items-center justify-center gap-3 px-6 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm"
+    className: "inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-400 hover:bg-white text-black font-bold uppercase tracking-widest transition-all rounded-sm"
   }, /*#__PURE__*/React.createElement(Icons.Send, {
     className: "w-5 h-5"
   }), " \u0422\u0435\u043B\u0435\u0433\u0440\u0430\u043C"), /*#__PURE__*/React.createElement("a", {
+    href: MAX_LINK,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    onClick: () => track('max'),
+    className: "inline-flex items-center justify-center gap-2 px-6 py-3 bg-sky-500 hover:bg-sky-400 text-white font-bold uppercase tracking-widest transition-all rounded-sm"
+  }, /*#__PURE__*/React.createElement(Icons.Max, {
+    className: "w-5 h-5"
+  }), " MAX"), /*#__PURE__*/React.createElement("a", {
     href: "tel:+79374037248",
     onClick: () => track('phone'),
-    className: "inline-flex items-center justify-center gap-3 px-6 py-3 border border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-widest transition-all rounded-sm"
+    className: "inline-flex items-center justify-center gap-2 px-6 py-3 border border-white/20 text-white hover:bg-white/10 font-bold uppercase tracking-widest transition-all rounded-sm"
   }, /*#__PURE__*/React.createElement(Icons.Phone, {
     className: "w-5 h-5 text-amber-400"
   }), " \u041F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u044C"))) : /*#__PURE__*/React.createElement("form", {
